@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./autograf
+      dockerfile: Dockerfile
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./autograf:/app
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - api
